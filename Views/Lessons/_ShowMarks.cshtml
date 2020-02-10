@@ -1,0 +1,45 @@
+﻿@model IEnumerable<YJournal.Models.Marks>
+@{ 
+    var db = new YJournal.Models.DbJournal();
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Presence)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    var user = db.Users.Find(item.StudentId);
+    <tr>
+        <td>
+            @user.UserName @user.Surname
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mark)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @YJournal.Classes.tools.getAnsw(item.Activity.Value)
+        </td>
+        <td>
+            @YJournal.Classes.tools.getAnsw(item.Presence.Value)
+        </td>
+    </tr>
+}
+
+</table>

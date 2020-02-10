@@ -1,0 +1,75 @@
+﻿@using YJournal.Models
+@model YJournal.Models.Lessons
+
+@{
+    ViewBag.Title = "Завершить занятие";
+    var db = new DbJournal();
+}
+
+<h3>Вы хотите завершить занятие?</h3>
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EduSubjects.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Theme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Theme)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @db.StGroup.Find(Model.GroupId).GroupName
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeWork)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomeWork)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateLess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateLess)
+        </dd>
+    </dl>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    @Html.HiddenFor(model => model.LessId)
+    @Html.HiddenFor(model => model.TeacherId)
+    @Html.HiddenFor(model => model.Theme)
+    @Html.HiddenFor(model => model.Edu)
+    @Html.HiddenFor(model => model.DateLess)
+    @Html.HiddenFor(model => model.State)
+    @Html.HiddenFor(model => model.GroupId)
+    @Html.HiddenFor(model => model.HomeWork)
+
+
+
+    <input type="submit" value="Завершить" class="btn btn-default" /> |
+    <p class="btn btn-default">@Html.ActionLink("К списку", "Index")</p> |
+    <p class="btn btn-default"> @Html.ActionLink("К занятию", "Marks", new { lessId = Model.LessId })</p>
+</div>
+    }
+    <br/>
+</div>
+
+@Html.Partial("_ShowMarks",db.Marks.Where(p=>p.LessId==Model.LessId))

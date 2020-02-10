@@ -1,0 +1,52 @@
+﻿@model IEnumerable<YJournal.Models.Lessons>
+
+@{
+    ViewBag.Title = "Занятия";
+}
+
+<h2>Занятия</h2>
+@Html.ActionLink("Назад", "Index", "Home")
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateLess)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Edu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Theme)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeWork)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeacherId)
+        </th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.DateLess.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EduSubjects.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Theme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeWork)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teachers.Users.UserName)
+                @Html.DisplayFor(modelItem => item.Teachers.Users.Surname)
+            </td>
+
+
+        </tr>
+    }
+
+</table>

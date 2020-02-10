@@ -1,0 +1,71 @@
+﻿@model YJournal.Models.Lessons
+
+@{
+    ViewBag.Title = "Отмена занятия";
+}
+
+<h2>Отменить</h2>
+
+<h3>Вы уверенны, что хотите отменить занятие</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+                <dt>
+            @Html.DisplayNameFor(model => model.Theme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Theme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EduSubjects.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateLess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateLess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @YJournal.Classes.tools.getAnsw(Model.State.Value)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeWork)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomeWork)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Отменить" class="btn btn-default" /> |
+            <div class="btn btn-default">@Html.ActionLink("Назад", "Marks",new {lessId = Model.LessId })</div>
+        </div>
+    }
+</div>

@@ -1,0 +1,55 @@
+﻿@using YJournal.Models;
+@{
+    ViewBag.Title = "Главная";
+}
+<h1>Добро пожаловать</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    var db = new DbJournal();
+    var user = db.Users.Where(p => p.Email == User.Identity.Name).First();
+    <h4>Дейтсвия:</h4>
+    <ul>
+        @switch (user.NPost)
+        {
+            case 0:
+                {
+                    <li>@Html.ActionLink("Администрирование пользователей", "Index", "Users")</li>
+                    <li>Просмотр успеваемости учеников</li>
+                    <li>все занятия</li>
+                    break;
+                }
+            case 1:
+                {
+                    <li>@Html.ActionLink("Администрирование пользователей", "Index", "Users")</li>
+                    break;
+                }
+            case 2:
+                {
+                    <li>@Html.ActionLink("Начать занятие","New","Lessons")</li>
+                    <li>@Html.ActionLink("Все занятия","Index","Lessons")</li>
+                    break;
+                }
+             case 3:
+                {
+                    <li>@Html.ActionLink("Оценки","Marks","Study")</li>
+                    <li>@Html.ActionLink("Занятия","Index","Study")</li>
+                        break;
+                    }
+                default: break;
+
+            }
+
+    </ul>
+
+
+}
+        else {
+    <p>Вас приветствуе электронный журнал!</p>
+    <p>Сейчас вы можете @Html.ActionLink("Пройти регистрацию", "Register", "Account"), @Html.ActionLink("Выполнить вход", "Login", "Account"), а так же связаться с нами.</p>
+
+
+}
+
+
+

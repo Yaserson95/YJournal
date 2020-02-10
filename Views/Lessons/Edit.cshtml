@@ -1,0 +1,95 @@
+﻿@model YJournal.Models.Lessons
+
+@{
+    YJournal.Models.DbJournal db = new YJournal.Models.DbJournal();
+    string title = "Изменить занятие";
+    ViewBag.Title = title;
+    SelectList Edugroup = new SelectList(db.EduSubjects,"EduId","Name");
+}
+
+<h2>@title</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.LessId)
+    @Html.ValidationMessageFor(model => model.LessId, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.TeacherId)
+    @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.DateLess)
+    @Html.ValidationMessageFor(model => model.DateLess, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.GroupId)
+    @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Theme, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Theme, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Theme, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Edu, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Edu, Edugroup, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Edu, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.HiddenFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+
+            @if (Model.State.Value)
+            {
+                <label class="form-control">Завершенно</label>
+            }
+            else
+            {
+                <label class="form-control">Не завершенно</label>
+            }
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GroupId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+           
+            
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HomeWork, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.HomeWork, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.HomeWork, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить изменения" class="btn btn-default" /> |
+            <p class="btn btn-default"> @Html.ActionLink("К списку", "Index")</p> | 
+            <p class="btn btn-default"> @Html.ActionLink("К занятию", "Marks", new { lessId = Model.LessId })</p>
+        </div>
+    </div>
+</div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

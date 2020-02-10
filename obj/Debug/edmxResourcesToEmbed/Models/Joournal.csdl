@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JournalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EduSubjects">
+    <Key>
+      <PropertyRef Name="EduId" />
+    </Key>
+    <Property Name="EduId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descript" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Lessons" Relationship="Self.Lessons_Edu" FromRole="EduSubjects" ToRole="Lessons" />
+  </EntityType>
+  <EntityType Name="Lessons">
+    <Key>
+      <PropertyRef Name="LessId" />
+      <PropertyRef Name="TeacherId" />
+    </Key>
+    <Property Name="LessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TeacherId" Type="Int32" Nullable="false" />
+    <Property Name="Theme" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Edu" Type="Int32" Nullable="false" />
+    <Property Name="DateLess" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="State" Type="Boolean" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="HomeWork" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EduSubjects" Relationship="Self.Lessons_Edu" FromRole="Lessons" ToRole="EduSubjects" />
+    <NavigationProperty Name="Teachers" Relationship="Self.Lessons_Teachers" FromRole="Lessons" ToRole="Teachers" />
+  </EntityType>
+  <EntityType Name="Marks">
+    <Key>
+      <PropertyRef Name="LessId" />
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="LessId" Type="Int32" Nullable="false" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <Property Name="Mark" Type="Int32" />
+    <Property Name="Comments" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Activity" Type="Boolean" />
+    <Property Name="Presence" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="StGroup">
+    <Key>
+      <PropertyRef Name="GroupId" />
+    </Key>
+    <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descript" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Course" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="Self.Student_Group_FK" FromRole="StGroup" ToRole="Students" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="StudentId" />
+      <PropertyRef Name="GroupId" />
+    </Key>
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="StGroup" Relationship="Self.Student_Group_FK" FromRole="Students" ToRole="StGroup" />
+    <NavigationProperty Name="Users" Relationship="Self.Student_User_FK" FromRole="Students" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Teachers">
+    <Key>
+      <PropertyRef Name="TeacherId" />
+    </Key>
+    <Property Name="TeacherId" Type="Int32" Nullable="false" />
+    <Property Name="GroupOwn" Type="Int32" />
+    <Property Name="NamePost" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Lessons" Relationship="Self.Lessons_Teachers" FromRole="Teachers" ToRole="Lessons" />
+    <NavigationProperty Name="Users" Relationship="Self.Teacher_User_FK" FromRole="Teachers" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="UserName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="NPost" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="Self.Student_User_FK" FromRole="Users" ToRole="Students" />
+    <NavigationProperty Name="Teachers" Relationship="Self.Teacher_User_FK" FromRole="Users" ToRole="Teachers" />
+  </EntityType>
+  <EntityType Name="UserAccount">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="Firstname" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Birth" />
+      <PropertyRef Name="Post" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Firstname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Post" Type="String" MaxLength="21" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ViewStudents">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="Firstname" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Birth" />
+      <PropertyRef Name="NPost" />
+      <PropertyRef Name="GroupId" />
+      <PropertyRef Name="GroupName" />
+      <PropertyRef Name="ReceiptDate" />
+      <PropertyRef Name="Course" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="Firstname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="NPost" Type="Int32" Nullable="false" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="GroupName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Course" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ViewTeachers">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="Firstname" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Birth" />
+      <PropertyRef Name="NPost" />
+      <PropertyRef Name="NamePost" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="Firstname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="NPost" Type="Int32" Nullable="false" />
+    <Property Name="NamePost" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OwnGroup" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <Association Name="Lessons_Edu">
+    <End Role="EduSubjects" Type="Self.EduSubjects" Multiplicity="1" />
+    <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EduSubjects">
+        <PropertyRef Name="EduId" />
+      </Principal>
+      <Dependent Role="Lessons">
+        <PropertyRef Name="Edu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Lessons_Teachers">
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Lessons" Type="Self.Lessons" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="TeacherId" />
+      </Principal>
+      <Dependent Role="Lessons">
+        <PropertyRef Name="TeacherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Student_Group_FK">
+    <End Role="StGroup" Type="Self.StGroup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Students" Type="Self.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StGroup">
+        <PropertyRef Name="GroupId" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Student_User_FK">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Students" Type="Self.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Teacher_User_FK">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Teachers">
+        <PropertyRef Name="TeacherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbJournal" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EduSubjects" EntityType="Self.EduSubjects" />
+    <EntitySet Name="Lessons" EntityType="Self.Lessons" />
+    <EntitySet Name="Marks" EntityType="Self.Marks" />
+    <EntitySet Name="StGroup" EntityType="Self.StGroup" />
+    <EntitySet Name="Students" EntityType="Self.Students" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Teachers" EntityType="Self.Teachers" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="UserAccount" EntityType="Self.UserAccount" />
+    <EntitySet Name="ViewStudents" EntityType="Self.ViewStudents" />
+    <EntitySet Name="ViewTeachers" EntityType="Self.ViewTeachers" />
+    <AssociationSet Name="Lessons_Edu" Association="Self.Lessons_Edu">
+      <End Role="EduSubjects" EntitySet="EduSubjects" />
+      <End Role="Lessons" EntitySet="Lessons" />
+    </AssociationSet>
+    <AssociationSet Name="Lessons_Teachers" Association="Self.Lessons_Teachers">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="Lessons" EntitySet="Lessons" />
+    </AssociationSet>
+    <AssociationSet Name="Student_Group_FK" Association="Self.Student_Group_FK">
+      <End Role="StGroup" EntitySet="StGroup" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="Student_User_FK" Association="Self.Student_User_FK">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="Teacher_User_FK" Association="Self.Teacher_User_FK">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Teachers" EntitySet="Teachers" />
+    </AssociationSet>
+    <FunctionImport Name="DeleteUser">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="FindEmail" ReturnType="Collection(JournalModel.FindEmail_Result)">
+      <Parameter Name="Email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetChUserData" ReturnType="Collection(JournalModel.GetChUserData_Result)">
+      <Parameter Name="Email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="RegisterUser" ReturnType="Collection(Int32)">
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Surname" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="Phone" Mode="In" Type="String" />
+      <Parameter Name="Birth" Mode="In" Type="DateTime" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="RePassword" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(JournalModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(JournalModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="UserLogin" ReturnType="Collection(JournalModel.UserLogin_Result)">
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UserToStudent" ReturnType="Collection(Int32)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="GroupId" Mode="In" Type="Int32" />
+      <Parameter Name="ReceiptDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="UserToTeacher" ReturnType="Collection(Int32)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="NamePost" Mode="In" Type="String" />
+      <Parameter Name="GroupOwn" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="CountMarks" ReturnType="Collection(JournalModel.CountMarks_Result)">
+      <Parameter Name="StudentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="StudentMarks" EntityType="JournalModel.StudentMarks" />
+  </EntityContainer>
+  <ComplexType Name="FindEmail_Result">
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Firstname" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="Surname" Nullable="true" MaxLength="40" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="Birth" Nullable="false" />
+    <Property Type="String" Name="Post" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="GetChUserData_Result">
+    <Property Type="String" Name="Firstname" Nullable="false" MaxLength="40" />
+    <Property Type="String" Name="Surname" Nullable="true" MaxLength="40" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="Birth" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="UserLogin_Result">
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="40" />
+  </ComplexType>
+  <ComplexType Name="CountMarks_Result">
+    <Property Type="Int32" Name="CountMarks" Nullable="true" />
+    <Property Type="Int32" Name="Edu" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="StudentMarks">
+    <Key>
+      <PropertyRef Name="Edu" />
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="Edu" Type="Int32" Nullable="false" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <Property Name="Presence" Type="Boolean" />
+    <Property Name="Mark" Type="Int32" />
+    <Property Name="Activity" Type="Boolean" />
+    <Property Name="State" Type="Boolean" />
+  </EntityType>
+</Schema>

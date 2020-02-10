@@ -1,0 +1,82 @@
+﻿@using YJournal.Models
+@using YJournal.Classes
+@model YJournal.Models.Lessons
+
+@{
+    ViewBag.Title = "Занятие";
+    var db = new DbJournal();
+    var user = db.Users.Find(Model.TeacherId);
+
+}
+
+<h2>Занятие</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TeacherId)
+        </dt>
+
+        <dd>
+            @user.UserName @user.Surname
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Edu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EduSubjects.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Theme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Theme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @db.StGroup.Find(Model.GroupId).GroupName
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeWork)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomeWork)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateLess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateLess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @tools.getAnsw(Model.State.Value)
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("К списку", "Index") | 
+    @Html.ActionLink("Удалить", "Delete", new { lessId = Model.LessId })
+
+</p>
+<br/>
+@Html.Partial("_ShowMarks", db.Marks.Where(p => p.LessId == Model.LessId))

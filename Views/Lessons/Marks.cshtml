@@ -1,0 +1,63 @@
+﻿@using YJournal.Models
+@using YJournal.Classes
+@model LessonMarks
+
+@{
+    DbJournal db = new DbJournal();
+    HtmlForms forms = new HtmlForms();
+    string title = "Занятие";
+
+
+    ViewBag.Title = title;
+
+}
+@Scripts.Render("~/scripts/jquery-3.3.1.js")
+@Scripts.Render("~/scripts/marks.js")
+
+
+<h3>@title</h3>
+
+<div>
+    <hr />
+
+    @using (Html.BeginForm(new { id = "LessonForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            @Html.HiddenFor(model => model.LessonId)
+            @Html.HiddenFor(model => model.Marks)
+            @Html.HiddenFor(model => model.Action)
+            @{
+                var lesson = db.Lessons.Where(p => p.LessId == Model.LessonId).First();
+                        <div style="float:left">
+                            <p><b>Преподаватель:</b> @lesson.Teachers.Users.UserName @lesson.Teachers.Users.Surname</p>
+                            <p><b>Группа:</b> @db.StGroup.Find(lesson.GroupId).GroupName</p>
+                            <p><b>Предмет:</b> @lesson.EduSubjects.Name</p>
+                            <p><b>Тема:</b> @lesson.Theme</p>
+                            <p><b>Домашнее задание:</b><br/> @lesson.HomeWork</p>
+                            <p><b>Дата/время</b> @lesson.DateLess</p>
+                            <p>
+                                <b>Завершен</b> @tools.getAnsw(lesson.State.Value)
+                            </p>
+                        </div>
+                <div style="float:right;width:200px;text-align:left">
+                    <input type="submit" value="Обновить" class="btn btn-default" name="renew" id="renew" style=" width:100%"/><br />
+                    <input type="submit" value="Завершить занятие" class="btn btn-default" name="exec" id="exec" style=" width:100%"/><br />
+                    <input type="submit" value="Изменить" class="btn btn-default" name="edit" id="edit" style=" width:100%"/><br />
+                    <input type="submit" value="Отменить" class="btn btn-default" name="btnCancel" id="btnCancel" style=" width:100%"/><br />
+                </div>
+            }
+
+            <hr style="clear:both" />
+        </div>
+    }
+    <h3>Оценки:</h3>
+    <form name=" mr">
+        @{
+            var marks = db.Marks.Where(p => p.LessId == Model.LessonId).ToList();
+
+        }
+        @MarksHelper.ListMarks(marks,new {id="Marks_table", @class="table"})
+    </form>
+</div>

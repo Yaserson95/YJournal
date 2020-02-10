@@ -1,0 +1,24 @@
+﻿@model YJournal.Models.UserAccount
+
+@{
+    ViewBag.Title = "Аккаунт";
+}
+
+    <h2>Аккаунт</h2>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Firstname) @Html.DisplayFor(model => model.Surname)</h4>
+    <p>@Html.DisplayFor(model => model.Post)</p>
+    <hr />
+    <ul style="float:left">
+        <li><b>@Html.DisplayNameFor(model => model.Email):</b>  @Html.DisplayFor(model => model.Email)</li>
+        <li><b>@Html.DisplayNameFor(model => model.Phone):</b>  @Html.DisplayFor(model => model.Phone)</li>
+        <li><b>@Html.DisplayNameFor(model => model.Birth):</b>  @Html.DisplayFor(model => model.Birth)</li>
+        <li><b>@Html.DisplayNameFor(model => model.UserId):</b>  @Html.DisplayFor(model => model.UserId)</li>
+    </ul>
+    <div style="float:right">
+        @Html.ActionLink("Управление", "Index", "Manage")<br>
+        @*@Html.ActionLink("Безопасность", "Index", "Manage")*@
+    </div>
+    <br style="clear:both">
+</div>

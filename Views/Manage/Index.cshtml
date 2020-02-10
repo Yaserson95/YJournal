@@ -1,0 +1,11 @@
+﻿@model YJournal.Models.IndexViewModel
+@{
+    ViewBag.Title = "Управление";
+}
+
+<h2>@ViewBag.Title.</h2>
+<h4>Настройки безопасности</h4>
+<p>@Html.ActionLink("Изменить пароль","ChangePassword","Manage")</p>
+<p>@Html.ActionLink("Изменить электронную почту", "ChangeEmail", "Manage")</p>
+<h4>Личные данные</h4>
+<p>@Html.ActionLink("Данные пользователя","ChangeData","Manage")</p>

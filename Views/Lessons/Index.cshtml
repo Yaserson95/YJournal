@@ -1,0 +1,67 @@
+﻿@model IEnumerable<YJournal.Models.Lessons>
+@{
+    ViewBag.Title = "Занятие";
+}
+
+<h2>Список занятий</h2>
+@Html.ActionLink("Новое занятие", "New") <br/>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Theme)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Edu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeWork)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateLess)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Theme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EduSubjects.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeWork)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateLess)
+            </td>
+
+            <td>
+                @YJournal.Classes.tools.getAnsw(item.State.Value)
+            </td>
+
+
+            <td>
+                @if (!item.State.Value)
+                {
+                    @Html.ActionLink("Перейти", "Marks", new { lessId = item.LessId })<br />
+                    @Html.ActionLink("Завершить", "Finish", new { lessId = item.LessId })<br />
+
+                }
+                else
+                {
+                    @Html.ActionLink("Подробнее", "Show", new { lessId = item.LessId })<br />
+                }
+                @Html.ActionLink("Удалить", "Delete", new { lessId = item.LessId })<br />
+
+            </td>
+        </tr>
+    }
+
+</table>

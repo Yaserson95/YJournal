@@ -1,0 +1,59 @@
+﻿@using YJournal.Models
+@model ViewStudents
+
+@{
+    ViewBag.Title = "Оценки";
+    DbJournal db = new DbJournal();
+}
+
+    <h2>Оценки</h2>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Firstname) @Html.DisplayFor(model => model.Surname)</h4>
+    <hr />
+    
+</div>
+<p>
+    @Html.ActionLink("Назад", "Index","Home")
+</p>
+
+<div>
+    @{
+        var countMarks = db.CountMarks(Model.UserID).ToList();
+    }
+    <table class="table">
+        <tr>
+            <th>Предмет</th>
+            <th>Оценки</th>
+            <th>Средний балл</th>
+        </tr>
+        @foreach (var sb in countMarks)
+        {
+            if (sb.CountMarks != 0)
+            {
+                var edu = db.EduSubjects.Find(sb.Edu);
+            <tr>
+                <td>@edu.Name</td>
+                @{ 
+                    var marks = db.StudentMarks.Where(p => p.Edu == sb.Edu && p.StudentId == Model.UserID && p.State == true);
+                    float average = 0;
+                } 
+                <td>
+                    @foreach (var M in marks)
+                    {
+                        average += M.Mark.Value;
+                        <span>@M.Mark</span>
+
+                    }
+                </td>
+                <td>
+                    @{
+                        average /= sb.CountMarks.Value;
+                    }
+                    @average
+                </td>
+            </tr>
+            }
+         }
+   </table>
+</div>
